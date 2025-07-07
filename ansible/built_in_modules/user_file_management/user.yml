@@ -1,0 +1,30 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: create user "ansible_user"
+      user:
+        name: "ansible_user"
+        password: "password123"
+        shell: /bin/bash
+    
+    - name: verify user profile
+      shell:
+        cmd: "su - ansible_user -c 'pwd'" 
+      register: user_path
+      changed_when: false
+
+    - name: display user path
+      debug:
+        var: "{{ user_path.stdout }}"
+
+    - name: create user "ansible_user2"
+      user:
+        name: "ansible_user2"
+        password: "password1234"
+        shell: /bin/bash
+
+    - name: remove user "ansible_user2"
+      user:
+        name: "ansible_user2"
+        state: absent

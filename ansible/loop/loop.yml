@@ -1,0 +1,34 @@
+---
+- hosts: all
+  become: true
+
+  vars:
+    apps:
+      - nginx
+      - firewalld
+
+  tasks:
+  - name: install service
+    yum:
+      name: "{{ item }}"
+      state: present
+    loop:
+      - nginx
+      - firewalld
+  
+  - name: service start
+    service:
+      name: "{{ item.name }}"
+      state: "{{ item.state }}"
+    loop:
+      - { name: 'nginx', state: 'started'}
+      - { name: 'firewalld', state: 'started'}
+
+  - name: service stop
+    service:
+      name: "{{ item }}"
+      state: stopped
+    loop: "{{ apps }}"
+    loop_control:
+      label: " service {{ item }} is stopped"
+      pause: 5

@@ -1,0 +1,17 @@
+
+#  LINEAR Strategy: playbook has defined two tasks and each task will run on each host in parallel
+# node1 has dependency on node2 and without waiting for task to complete on node2, the node1 cannot proceed with 'second task' 
+
+---
+- hosts: all
+  become: true
+  strategy: linear    # default
+  tasks:
+  - name: get hostname
+    shell: hostname
+    register: output
+
+  - name: print hostname
+    debug:
+      msg: "{{ output.stdout }}"
+

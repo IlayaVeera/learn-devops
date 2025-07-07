@@ -1,0 +1,10 @@
+---
+# defaults file for role_ec2
+  region: "us-east-1"
+  vpc_cidr: "10.10.0.0/16"
+  subnet_cidr: "10.10.10.0/28"
+  instance_name: "ansible_instance"
+  instance_type: "t2.micro"
+  image_id: "ami-053a45fff0a704a47"
+  Environment: "Testing"
+  

@@ -1,0 +1,12 @@
+---
+- hosts: all
+  become: true
+  tasks:
+  - name: create temp file
+    tempfile:
+      path: /home/vmadmin/
+      state: file
+      suffix: .txt
+      prefix: myfile_
+
+

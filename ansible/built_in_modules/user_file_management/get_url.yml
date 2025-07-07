@@ -1,0 +1,8 @@
+---
+- hosts: all
+  become: true
+  tasks:
+  - name: download file 
+    get_url:
+      url: https://t4.ftcdn.net/jpg/03/96/98/33/240_F_396983381_AcuGFHQbNn7D9eercXFpOecN7d7B5F66.jpg
+      dest: /home/vmadmin/

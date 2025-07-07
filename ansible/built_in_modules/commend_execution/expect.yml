@@ -1,0 +1,10 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name: execute command
+    expect: 
+      command: passwd ansible_user2
+      responses:
+        (?i)password: "welcome@123"
+    no_log: true

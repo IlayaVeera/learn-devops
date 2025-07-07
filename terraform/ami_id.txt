@@ -1,0 +1,1 @@
+us-east-1   ami-0453ec754f44f9a4a   t2-micro

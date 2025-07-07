@@ -1,0 +1,52 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name: start the service
+    systemd_service:
+      name: crond
+      state: started
+    register: output
+  - debug:
+      var: output.status.Result
+  - debug:
+      var: output.state
+  
+  - name: stop the service
+    systemd_service:
+      name: crond
+      state: stopped
+    register: output
+  - debug:
+      var: output.status.Result
+  - debug:
+      var: output.state
+
+  - name: disable the service
+    systemd_service:
+      name: crond
+      enabled: false
+    register: output
+  - debug:
+      var: output.status.Result
+  - debug:
+      var: output.status.ActiveState
+  - name: enable the service
+    systemd_service:
+      name: crond
+      enabled: true
+    register: output
+  - debug:
+      var: output.status.Result
+  - debug:
+      var: output.status.ActiveState
+
+  - name: restart the service
+    systemd_service:
+      name: crond
+      state: restarted
+    register: output
+  - debug:
+      var: output.status.Result
+  - debug:
+      var: output.state

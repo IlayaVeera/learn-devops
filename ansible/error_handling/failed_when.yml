@@ -1,0 +1,15 @@
+
+
+---
+- hosts: all
+  become: true
+  tasks:
+
+  - name: check file list
+    shell: ls /home/vmadmin/dir
+    register: hostname
+
+  - name: check file list | with failed_when
+    shell: ls /home/vmadmin/dir
+    register: hostname
+    failed_when: "'file.txt' not in hostname.stdout"

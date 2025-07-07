@@ -1,0 +1,76 @@
+
+https://docs.ansible.com/ansible/latest/collections/ansible/builtin/index.html
+
+Package Management:
+=====================
+apt 		module – Manages apt-packages
+apt_repository 	module – Add and remove APT repositories
+yum_repository 	module – Add or remove YUM repositories
+dnf 		module – Manages packages with the dnf package manager
+get_url 	module – Downloads files from HTTP, HTTPS, or FTP to node
+pip 		module – Manages Python library dependencies
+package 	module – Generic OS package manager
+package_facts 	module – Package information as facts
+------------------------------------------------------------------
+
+User and file management:
+===============================
+user 		module – Manage user accounts
+file 		module – Manage files and file properties
+tempfile 	module – Creates temporary files and directories
+copy 		module – Copy files to remote locations
+fetch 		module – Fetch files from remote nodes
+git 		module – Deploy software (or files) from git checkouts
+------------------------------------------------------------------------
+
+commend execution:
+=======================
+template 	module – Template a file out to a target host
+shell 		module – Execute shell commands on targets
+script 		module – Runs a local script on a remote node after transferring it
+command 	module – Execute commands on targets
+expect 		module – Executes a command and responds to prompts
+raw 		module – Executes a low-down and dirty command
+----------------------------------------------------------------
+service management:
+========================
+
+hostname 	module – Manage hostname
+systemd_service module – Manage systemd units
+service 	module – Manage services 
+service_facts 	module – Return service state information as fact data
+ping 		module – Try to connect to host, verify a usable python and return pong on success
+reboot 		module – Reboot a machine
+--------------------------------------------------------------------
+
+facts managetment:
+=====================
+find 		module – Return a list of files based on specific criteria
+stat 		module – Retrieve file or file system status
+setup 		module – Gathers facts about remote hosts
+gather_facts 	module – Gathers facts about remote hosts
+set_fact 	module – Set host variable(s) and fact(s).
+set_stats 	module – Define and display stats for the current ansible run
+meta 		module – Execute Ansible ‘actions’
+mount_facts 	module – Retrieve mount information.
+--------------------------------------------------------------
+
+task execution management:
+===========================
+fail 		module – Fail with custom message
+pause 		module – Pause playbook execution
+wait_for 	module – Waits for a condition before continuing
+wait_for_connection module – Waits until remote system is reachable/usable
+-------------------------------------------------------------------------
+
+text management:
+==================
+blockinfile 	module – Insert/update/remove a text block surrounded by marker lines
+lineinfile 	module – Manage lines in text files
+replace 	module – Replace all instances of a particular string in a file using a back-referenced regular expression
+---------------------------------------------------------
+
+schedule management:
+====================
+cron 		module – Manage cron.d and crontab entries
+

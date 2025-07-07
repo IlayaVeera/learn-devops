@@ -1,0 +1,38 @@
+#Handlers are tasks that only run when notified.     
+# handlers are triggered if the task as a whole is changed
+
+---
+- hosts: all
+  become: true
+  vars:
+    app_name:
+      - httpd
+      - firewalld
+  tasks:
+  - name: install service
+    yum:
+      name: "{{ app_name }}"
+      state: present
+    changed_when: true
+    notify: 
+      - restart service
+      - check service state
+      - Populate service facts
+
+  handlers:
+    - name: restart service
+      service:
+        name: "{{ item }}"
+        state: restarted
+      loop: "{{ app_name }}"
+
+    - name: Populate service facts
+      service_facts:
+    
+    - name: check service state
+      ansible.builtin.debug:
+        msg: " service {{ item  }} is running "
+      when: ansible_facts.services['httpd.service'].state == 'running' and ansible_facts.services['firewalld.service'].state == 'running'
+      loop: "{{ app_name }}"
+
+      

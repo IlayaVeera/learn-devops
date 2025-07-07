@@ -1,0 +1,18 @@
+---
+- name: start an instance with a public IP address
+  amazon.aws.ec2_instance:
+    name: "{{ item.name }}"
+    key_name: "aws_key"
+    vpc_subnet_id: "{{ subnet_info.subnet.id }}"
+    instance_type: "{{ instance_type }}"
+    security_group: "{{ sg_info.group_id}}"
+    region: "{{ region }}"
+    aws_access_key: "{{ access_key }}"
+    aws_secret_key: "{{ secret_key }}"
+    network_interfaces:
+      - assign_public_ip: true
+    image_id: "{{ item.image }}"
+    tags:
+      Environment: "{{ item.Environment }}"
+  register: ec2_instance_info
+  loop: "{{ input_list }}"

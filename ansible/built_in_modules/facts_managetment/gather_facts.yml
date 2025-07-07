@@ -1,0 +1,20 @@
+---
+- hosts: all
+  become: true
+  gather_facts: yes
+  tasks:
+  - name: display all  facts
+    debug:
+      var: ansible_facts ['hostname']
+  - name: os family
+    debug:
+      var: ansible_facts ['os_family']
+  - name: Hostname
+    debug:
+      msg: "The name of the host is {{ ansible_facts['hostname'] }}"
+  - name: python version 
+    debug:
+      msg: "python version is: {{ ansible_facts['python_version'] }}"
+  - name: IP address 
+    debug:
+      msg: "IP address is: {{ ansible_facts ['default_ipv4']['address'] }}"

@@ -1,0 +1,15 @@
+---
+- hosts: all 
+  become: true
+  tasks:
+  - name: Gather the package facts
+    ansible.builtin.package_facts:
+      manager: auto
+  - name: Print the package facts
+    ansible.builtin.debug:
+      var: "{{ ansible_facts.packages['unzip'] [0].version }}"
+  
+  - name: Print the nginx package facts
+    ansible.builtin.debug:
+      var: "{{ ansible_facts.packages['nginx'] [0].version }}"
+    when: "'nginx' in ansible_facts.packages"

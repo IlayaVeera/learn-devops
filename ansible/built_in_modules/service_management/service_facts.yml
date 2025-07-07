@@ -1,0 +1,34 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name: get service facts
+    service_facts:
+
+  - name: print facts
+    debug: msg="sntp service state={{var1}} and status={{var2}}"
+    vars:
+      var1: "{{ansible_facts['services']['sntp.service']['state'] }}"
+      var2: "{{ansible_facts['services']['sntp.service']['status'] }}"
+
+  - name: running services_list
+    debug: msg={{ services_list  }}
+    vars:
+     services_list: "{{ ansible_facts.services.values()| selectattr('state','equalto','running')|map(attribute='name')}}"
+
+  - name: enabled service list 
+    debug: msg={{ enable_service_list }}
+    vars:
+      enable_service_list: "{{ ansible_facts.services.values() | selectattr('state','equalto','running') |selectattr('status','equalto','enabled') | map(attribute='name')}}"
+
+  - name: get  service details
+    debug: msg={{ get_service }}
+    vars:
+      get_service: "{{ ansible_facts.services.values() | selectattr('name','equalto','crond.service')}}"
+  
+  - name: stop service
+    service:
+      name: crond.service
+      state: stopped
+    when : ansible_facts['services']['crond.service']['state'] == "running"
+      

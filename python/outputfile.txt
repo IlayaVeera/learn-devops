@@ -1,0 +1,16 @@
+Method 1: Using loops
+Approach:
+
+Opening the input file in the read mode.
+Opening the output file in the write mode.
+Read lines from the input file and write it in the output file.Method 1: Using loops
+Approach:
+
+Opening the input file in the read mode.
+Opening the output file in the write mode.
+Read lines from the input file and write it in the output file.Method 1: Using loops
+Approach:
+
+Opening the input file in the read mode.
+Opening the output file in the write mode.
+Read lines from the input file and write it in the output file.

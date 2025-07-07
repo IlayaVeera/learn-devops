@@ -1,0 +1,19 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name: get the script file from local path and execute in remote server
+    script: ./script_file.sh
+    register: location
+  - name: get location output
+    debug:
+      var: location.stdout
+
+  - name: get the script file from local path and execute in remote server
+    script:
+      cmd: /home/vmadmin/ansible/built_in_modules/commend_execution/script_file.sh  #path in local server
+      chdir: /home/vmadmin/dir  # path in remote server
+    register: location
+  - name: get location output
+    debug:
+      var: location.stdout

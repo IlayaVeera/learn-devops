@@ -1,0 +1,47 @@
+---
+# tasks file for role_ec2
+- name: create vpc
+  amazon.aws.ec2_vpc_net:
+    name: "vpc_{{ region }}"
+    cidr_block: "{{ vpc_cidr }}"
+    region: "{{ region }}"
+  register: vpc_info
+
+- name: Create VPC gateway
+  amazon.aws.ec2_vpc_igw:
+    vpc_id: "{{ vpc_info.vpc.id }}"
+    region: "{{ region }}"
+  register: vpc_igw
+
+- name: Create subnet
+  amazon.aws.ec2_vpc_subnet:
+    state: present
+    vpc_id: "{{ vpc_info.vpc.id }}"
+    cidr: "{{ subnet_cidr }}"
+    map_public: true
+    region: "{{ region }}"
+  register: subnet_info
+
+- name: create route table and associate with subnet and IGW
+  amazon.aws.ec2_vpc_route_table:
+    subnets: "{{ subnet_info.subnet.id }}"
+    vpc_id: "{{ vpc_info.vpc.id }}"
+    routes:
+      - dest: "0.0.0.0/0"
+        gateway_id: "{{ vpc_igw.gateway_id }}"
+    region: "{{ region }}"
+    tags:
+      name: "{{ rt_tag }}"
+  register: public_route_table
+
+- name: create ec2 security group
+  amazon.aws.ec2_security_group:
+    name: ec2_sg   
+    description: sg to enable port 22 and 80
+    vpc_id: "{{ vpc_info.vpc.id }}"
+    rules:
+      - proto: "{{ sg_rules.proto }}"
+        ports: "{{ sg_rules.port }}"
+        cidr_ip: "{{ sg_rules.cidr_ip }}"
+    region: "{{ region }}"
+  register: sg_info

@@ -1,0 +1,18 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name: execute command
+    command: ls /home/vmadmin/dir
+    register: location
+  - name: get location output
+    debug:
+      var: location.stdout
+
+  - name: execute command
+    command: 
+      cmd: ls /home/vmadmin/dir
+    register: location
+  - name: get location output
+    debug:
+      var: location.stdout

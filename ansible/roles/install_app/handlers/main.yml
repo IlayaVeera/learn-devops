@@ -1,0 +1,16 @@
+---
+# handlers file for install_app
+    - name: restart service
+      service:
+        name: "{{ item }}"
+        state: restarted
+      loop: "{{ app_name }}"
+
+    - name: Populate service facts
+      service_facts:
+    
+    - name: check service state
+      ansible.builtin.debug:
+        msg: " service {{ item  }} is running "
+      when: ansible_facts.services['httpd.service'].state == 'running' and ansible_facts.services['firewalld.service'].state == 'running'
+      loop: "{{ app_name }}"

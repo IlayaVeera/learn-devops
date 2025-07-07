@@ -1,0 +1,58 @@
+---
+- hosts: all
+  become: true
+  gather_facts: yes
+  tasks:
+  - name: display all  facts
+    debug:
+      var: ansible_facts ['hostname']
+  - name: os family
+    debug:
+      var: ansible_facts ['os_family']
+  - name: IP address 
+    debug:
+      msg: "IP address is: {{ ansible_facts ['default_ipv4']['address'] }}"
+    when: ansible_facts['os_family'] == "RedHat"
+
+  - name: reboot server 
+    command: /sbin/reboot
+    when: ansible_facts['os_family'] == 'Debian'
+
+  - name: shutdown server for multiple condition
+    command: /sbin/shutdown -t now
+    when: (ansible_facts['os_family'] == 'RedHat' and ansible_facts['distribution'] == 'Centos' and ansible_facts['distribution_major_version'] == 8) or (ansible_facts['os_family'] == 'Debian' )
+   
+  - name: shutdown server for list of condition
+    command: /sbin/shutdown -t now
+    when: 
+    - ansible_facts['os_family'] == "RedHat"
+    - ansible_facts['distribution'] == "Centos"
+    - ansible_facts['distribution_major_version'] == "8"
+
+  - name: get os family using variable
+    set_fact:
+      osfamily: "{{ ansible_facts['os_family'] }}"
+  - name: reboot
+    when: osfamily == 'Debian'
+    shell: "reboot"
+
+  - name: get file details
+    shell: ls /home/vmadmin/dir
+    register: output
+  - name: create file if not exist
+    file: 
+      path: /home/vmadmin/dir/testfile4.txt
+      state: touch
+#     modification_time: preserve
+#     access_time: preserve
+#   when: output.stdout.find('testfile4.txt') != 1
+    when: "'testfile4.txt' not in output.stdout"
+
+  - name: check output is changed or not
+    command: echo "output is changed"
+    when: output is changed #failed/succeeded/skipped/
+
+  - name: combine when with loop
+    command: echo "{{ item }}"
+    loop: [ 1, 2, 3, 4, 5 ]
+    when: item > 4

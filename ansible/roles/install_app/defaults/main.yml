@@ -1,0 +1,5 @@
+---
+# defaults file for install_app
+    app_name:
+      - httpd
+      - firewalld

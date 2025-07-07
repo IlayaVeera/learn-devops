@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-redis
+  labels:
+    env: prod
+spec:
+  containers:
+  - name: container-redis
+    image: redis
+  nodeName: kindcluster-worker2

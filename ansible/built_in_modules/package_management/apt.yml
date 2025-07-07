@@ -1,0 +1,49 @@
+---
+- hosts: all
+  become: true
+
+  tasks:
+  - name: install foo package
+    apt:
+      name: foo=1.00  # state: present is optional
+
+  - name: install nginx package
+    apt:
+      name: nginx
+      state: latest  
+
+  - name: downgrade nginx package
+    apt:
+      name: nginx=1.18.0
+      state: present  
+      allow_downgrade: yes
+
+  - name: update apache2 if present
+    ansible.builtin.apt:
+      name:
+      - apache2
+      state: latest
+      only_update: true
+  
+  - name: update cache and install nginx package and install recomended dependencies
+    apt:
+      name: nginx
+      update_cache: true
+      install_recommends: yes
+
+  - name: upgrade all packages 
+    apt:
+      name: "*"
+      state: latest
+    ignore_errors: true
+
+  - name: Run the equivalent of "apt-get update" as a separate step
+    ansible.builtin.apt:
+      update_cache: yes
+
+  - name: install build dependencies
+    apt:
+      pkg: foo
+      state: build-deb
+
+

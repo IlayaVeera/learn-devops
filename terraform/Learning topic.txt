@@ -1,0 +1,65 @@
+Terraform
+	Provider
+	for loop
+	for-each
+	locals
+	dynamic block
+	count
+	module
+	output
+	built-in-function.
+    		lookup,element,timestamp
+	data source
+	backend
+	dynamodb(LockID)
+	secrets handling
+	template
+	null_resource
+	import
+	depends on
+	user data
+	triggers
+    	lifecycle
+        	create_before_destroy,prevent_destroy,ignore_changes,replace_triggered_by
+	provisioners
+    		local-exec,remote-exec,file
+	terraform registry -> ready made modules
+	splat expression
+	zipmap func
+
+
+terraform lock file
+terraform state file
+	state file locking
+	state file management
+   		list,show,rm,mv,pull,push
+
+	desired state vs current state
+
+	
+
+commands
+    terraform init
+    terraform plan
+    terraform apply
+    terraform apply -auto-approve
+    terraform validate
+    terraform show
+    terraform plan -refresh
+    terraform plan -refresh=false
+    terraform plan -target=ec2
+resource replace
+    terraform apply -replace="aws_instance.myec2"
+terraform plan file
+    terraform plan -out=filepath 
+    terraform apply filepath
+	terraform plan -vars-file="dev.tfvars"
+    precedence   -var or -var-file > .auto.tfvars or .suto.tfvars.json > .tfvars.json >  .tfvars > envir var
+
+Debuging/Log
+    export TF_LOG=TRACE
+    export TF_LOG_PATH=/tmp/terraform.crash.Log
+        nano /tmp/terraform.crash.Log
+terraform formatt
+    terraform fmt 
+

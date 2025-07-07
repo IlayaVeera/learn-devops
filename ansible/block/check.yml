@@ -1,0 +1,16 @@
+---
+- hosts: all
+  become: true
+  vars:
+    app_name:
+      - httpd
+      - firewalld
+
+  tasks: 
+ 
+    - name: Populate service facts
+      service_facts:
+    - debug:
+       msg: app not installed!
+      when: item not in services
+      loop: "{{ app_name }}"

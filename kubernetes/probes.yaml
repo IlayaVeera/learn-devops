@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    test: liveness
+  name: liveness-exec
+spec:
+  containers:
+  - name: liveness
+    image: nginx 
+    livenessProbe:
+      exec:
+        command:
+        - sh
+        - -c
+        - ps
+      initialDelaySeconds: 5
+      periodSeconds: 5
+      failureThreshold: 3

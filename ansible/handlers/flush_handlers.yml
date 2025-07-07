@@ -1,0 +1,45 @@
+# By default, handlers run after all the tasks in a particular play have been completed.
+# If you need handlers to run before the end of the play, add a task to flush them using the meta module,
+# The meta: flush_handlers task triggers any handlers that have been notified at that point in the play
+
+---
+- hosts: all
+  become: true
+  vars:
+    app_name:
+      - httpd
+      - firewalld
+  tasks:
+  - name: install service
+    yum:
+      name: "{{ app_name }}"
+      state: present
+    changed_when: true
+    notify: 
+      - restart service
+
+  - name: run handlers notified till now
+    meta: flush_handlers
+
+  - name: Populate service facts
+    service_facts:
+    changed_when: true
+    notify:
+      - check service state
+
+  handlers:
+    - name: restart service
+      service:
+        name: "{{ item }}"
+        state: restarted
+      loop: "{{ app_name }}"
+
+    - name: check service state
+      ansible.builtin.debug:
+        msg: " service {{ item  }} is running "
+      when: ansible_facts.services['httpd.service'].state == 'running' and ansible_facts.services['firewalld.service'].state == 'running'
+      loop: "{{ app_name }}"
+
+
+
+

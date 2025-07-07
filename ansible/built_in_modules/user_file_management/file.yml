@@ -1,0 +1,61 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name: create new directory
+    file:
+      path: /home/vmadmin/dir
+      state: directory
+      owner: vmadmin
+      group: vmadmin
+
+  - name: create new file
+    file:
+      path: /home/vmadmin/dir/{{ item }}
+      state: touch
+      owner: vmadmin 
+      group: vmadmin
+    loop:
+      - test1.txt 
+      - test2.txt
+      - test3.txt
+  
+  - name: update text in file
+    shell:
+      cmd: "echo 'hello2' > /home/vmadmin/dir/test1.txt"
+  
+  - name: get text from file
+    shell:
+      cmd: "cat test1.txt"
+    register: output
+
+  - name: print output
+    debug:
+      var: output.stdout
+
+  - name: change permission of existing file
+    file:
+      path: /home/vmadmin/dir/test1.txt
+      state: file
+      owner: root 
+      group: root
+  - name: recursively change permission in directory
+    file:
+      path: /home/vmadmin/dir
+      state: directory
+      recurse: yes
+      owner: root
+      group: root
+ 
+  - name: delete file
+    file:
+      path: /home/vmadmin/text1.txt
+      state: absent
+     
+  - name: update permission in directory
+    file:
+      path: /home/vmadmin/dir
+      state: absent
+     
+
+

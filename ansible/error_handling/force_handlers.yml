@@ -1,0 +1,26 @@
+# Ansible runs handlers at the end of each play. If a task notifies a handler but another task fails later in the play, by default the handler does not run on that host,
+# When handlers are forced, Ansible will run all notified handlers on all hosts, even hosts with failed tasks
+
+---
+- hosts: all
+  become: true
+  force_handlers: true
+  tasks:
+  - name: print hostname
+    shell: echo $HOSTNAME
+    register: hostname
+    notify:
+    - print output
+
+  - name: fail task
+    fail:
+  
+  - name: print this message
+    debug:
+      msg: 'this is 2nd task '
+
+  handlers:
+    - name: print output
+      debug:
+        msg: "{{ hostname.stdout }}"
+

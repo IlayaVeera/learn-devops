@@ -1,0 +1,8 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name: copy file from remote location to local
+    fetch:
+      src: /home/vmadmin/dump/newdb/collection_1.bson
+      dest: /home/vmadmin

@@ -1,0 +1,13 @@
+---
+
+- name: setup network
+  include_tasks: 
+    file: network_setup.yml
+
+- name: create EC2 instance
+  include_tasks: 
+    file: ec2_instance_setup.yml
+
+- name: setup password less authentication
+  include_tasks: 
+    file: password_less_auth.yml

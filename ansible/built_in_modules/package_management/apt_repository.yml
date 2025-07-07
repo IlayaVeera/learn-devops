@@ -1,0 +1,14 @@
+---
+- hosts: all
+  become: true
+
+  tasks:
+  - name: Add specified repository into sources list
+    ansible.builtin.apt_repository:
+      repo: deb http://archive.canonical.com/ubuntu hardy partner
+      state: present
+      
+  - name: Remove specified repository from sources list
+    ansible.builtin.apt_repository:
+      repo: deb http://archive.canonical.com/ubuntu hardy partner
+      state: absent

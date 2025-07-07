@@ -1,0 +1,43 @@
+---
+- hosts: all
+  become: true
+
+  tasks:
+  - name: uninstall nginx package
+    dnf:
+      name: nginx
+      state: absent  
+
+  - name: download  git package
+    dnf:
+      name: git
+      download_only: true
+      download_dir: /home/vmadmin
+
+  - name: update apache package >=2.4 if present
+    dnf:
+      name:
+      - httpd >=2.4
+      state: latest
+      update_only: true
+  
+  - name: install nginx package
+    dnf:
+      name: nginx
+      state: latest  #present
+      update_cache: true
+
+
+# - name: Install nginx rpm from a local file
+#   dnf:
+#     name: /usr/local/src/nginx-release-centos-6-0.el6.ngx.noarch.rpm
+#     state: present
+
+  - name: upgrade all packages 
+    dnf:
+      name: "*"
+      state: latest
+    ignore_errors: true
+
+
+

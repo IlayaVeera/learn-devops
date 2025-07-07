@@ -1,0 +1,29 @@
+---
+- hosts: all
+  become: true
+  vars:
+    app_name:
+      - httpd
+      - firewalld
+
+  tasks:
+
+  - name: check 'distribution'
+    debug:
+      msg: "{{ ansible_facts['distribution'] }}"
+      
+  - name: install services 
+    when: ansible_facts['distribution'] == "CentOS"
+    block:
+
+      - name: print vars
+        debug:  
+          msg: "{{ app_name }}"
+
+      - name: install application
+        yum:
+          name: "{{ app_name }}"
+          state: present
+ 
+
+  

@@ -1,0 +1,8 @@
+---
+- hosts: all
+  become: true
+  tasks:
+  - name: find file in server
+    find:
+      paths: /home/vmadmin/dir
+    register: files

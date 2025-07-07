@@ -1,0 +1,26 @@
+---
+- hosts: all
+  become: true
+
+  tasks:
+  - name: Install bottle python package
+    ansible.builtin.pip:
+      name: bottle
+
+  - name: Install bottle python package with version specifiers
+    ansible.builtin.pip:
+      name: bottle>0.10
+
+#  - name: Install specified python requirements
+#    ansible.builtin.pip:
+#     requirements: /my_app/requirements.txt
+  
+  - name: Install bottle, forcing reinstallation if it's already installed
+    ansible.builtin.pip:
+      name: bottle
+      state: forcereinstall
+
+  - name: Install bottle, forcing reinstallation if it's already installed
+    ansible.builtin.pip:
+      name: bottle
+      state: absent

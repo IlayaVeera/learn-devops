@@ -1,0 +1,22 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name: copy file to remote location
+    copy:
+      src: /home/vmadmin/testfile2.txt
+      dest: /home/vmadmin/dump/testfile2.txt
+      owner: vmadmin
+      group: vmadmin
+      mode: 644
+  
+  - name: backup existing file when copy file to remote location if it differs from the copied version
+    copy:
+      src: /home/vmadmin/testfile.txt
+      dest: /home/vmadmin/dump/testfile.txt
+      backup: yes
+
+  - name: copy content to file
+    copy:
+      content: '# this is my content to file'
+      dest: /home/vmadmin/dump/testfile.txt

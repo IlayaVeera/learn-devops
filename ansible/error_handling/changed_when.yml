@@ -1,0 +1,18 @@
+# This lets you determine, based on return codes or output, whether a change should be reported in Ansible statistics and whether a handler should be triggered or not.
+
+
+---
+- hosts: all
+  become: true
+  tasks:
+  - name: run facts
+    gather_facts:
+    changed_when: true    # handlers won't run unless changes_when set to true
+    notify:
+    - print output
+
+  handlers:
+    - name: print output
+      debug:
+        msg: "Host name is {{ ansible_facts.hostname }}"
+

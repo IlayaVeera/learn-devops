@@ -1,0 +1,57 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name: execute command in remote server
+    shell: pwd
+    register: location
+  - name: get location output
+    debug:
+      var: location.stdout
+  
+  - name: execute shell script
+    shell: /home/vmadmin/dir/sample_script.sh
+    register: location
+  - name: get location output
+    debug:
+      var: location.stdout
+   
+  - name: execute shell script with cmd
+    shell: 
+      cmd : /home/vmadmin/dir/sample_script.sh
+    register: location
+  - name: get location output
+    debug:
+      var: location.stdout
+
+  - name: execute shell script using chdir
+    shell: 
+      cmd : ./sample_script.sh
+      chdir: /home/vmadmin/dir
+    register: location
+  - name: get location output
+    debug:
+      var: location.stdout
+
+  - name: execute shell script using args
+    shell: ./sample_script.sh
+    args:
+      chdir: /home/vmadmin/dir
+    register: location
+  - name: get location output
+    debug:
+      var: location.stdout
+
+  - name: execute shell script using output file
+    shell: ./sample_script.sh >> results2.txt
+    args:
+      chdir: /home/vmadmin/dir
+      creates: results2.txt   #restrict overide the existing file
+
+  - name: execute shell script using output file
+    shell: ./sample_script.sh >> results3.txt
+    args:
+      chdir: /home/vmadmin/dir
+      removes: results3.txt   #apend the file 
+  
+

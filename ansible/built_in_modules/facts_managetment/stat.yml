@@ -1,0 +1,16 @@
+---
+- hosts: all
+  become: true
+  tasks:
+  - name: find file in server
+    stat:
+      path: /home/vmadmin/dir/sample_script.sh
+    register: output
+  - debug:
+      var: output.stat.exists
+  - name: find file in server
+    stat:
+      path: /home/vmadmin/dir/
+    register: output
+  - debug:
+      var: output.stat.isdir

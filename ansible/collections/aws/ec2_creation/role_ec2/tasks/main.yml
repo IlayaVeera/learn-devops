@@ -1,0 +1,41 @@
+---
+# tasks file for role_ec2
+- name: create vpc
+  amazon.aws.ec2_vpc_net:
+    name: "vpc_{{ region }}"
+    cidr_block: "{{ vpc_cidr }}"
+    region: "{{ region }}"
+  register: vpc_info
+
+- name: Create subnet
+  amazon.aws.ec2_vpc_subnet:
+    state: present
+    vpc_id: "{{ vpc_info.vpc.id }}"
+    cidr: "{{ subnet_cidr }}"
+    region: "{{ region }}"
+  register: subnet_info
+
+- name: start an instance with a public IP address
+  amazon.aws.ec2_instance:
+    name: "{{ instance_name }}"
+#   key_name: "prod-ssh-key"
+    vpc_subnet_id: "{{ subnet_info.subnet.id }}"
+    instance_type: "{{ instance_type }}"
+    security_group: default
+    region: "{{ region }}"
+    aws_access_key: "{{ access_key }}"
+    aws_secret_key: "{{ secret_key }}"
+    network_interfaces:
+      - assign_public_ip: true
+    image_id: "{{ image_id }}"
+    tags:
+      Environment: "{{ Environment }}"
+  register: ec2_instance_info
+
+- debug: 
+    msg:
+      var1: "instance_id        : {{ ec2_instance_info.instances[0].instance_id }}" 
+      var2: "private_ip_address : {{ ec2_instance_info.instances[0].private_ip_address }}" 
+      var3: "public_ip_address  : {{ ec2_instance_info.instances[0].public_ip_address }}" 
+      var4: "security_group_id  : {{ ec2_instance_info.instances[0].security_groups[0].group_id }}" 
+      var5: "Environment        : {{ ec2_instance_info.instances[0].tags.Environment }}" 

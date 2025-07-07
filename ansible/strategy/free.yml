@@ -1,0 +1,16 @@
+# FREE Strategy: In free strategy, the host does not depend on each other to complete tasks . 
+# node1 will not wait to complete the task on node2. 
+
+---
+- hosts: all
+  become: true
+  strategy: free
+  tasks:
+  - name: get hostname
+    shell: hostname
+    register: output
+
+  - name: print hostname
+    debug:
+      msg: "{{ output.stdout }}"
+

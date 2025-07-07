@@ -1,0 +1,19 @@
+---
+- hosts: all
+  become: true
+  tasks:
+  - name: Add repository
+    ansible.builtin.yum_repository:
+      name: epel
+      description: EPEL YUM repo
+      baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
+      state: present
+
+  - name: yum-clean-metadata
+    ansible.builtin.command: yum clean metadata
+
+  - name: Remove repository (and clean up left-over metadata)
+    ansible.builtin.yum_repository:
+      name: epel
+      state: absent
+    notify: yum-clean-metadata

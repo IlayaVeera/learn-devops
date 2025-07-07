@@ -1,0 +1,11 @@
+---
+# tasks file for install_app
+  - name: install service
+    yum:
+      name: "{{ app_name }}"
+      state: present
+    changed_when: true
+    notify: 
+      - restart service
+      - check service state
+      - Populate service facts

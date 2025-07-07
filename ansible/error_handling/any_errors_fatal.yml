@@ -1,0 +1,27 @@
+# Aborting on the first error
+# You can stop play execution after the first failure happens with any_errors_fatal
+# If you set any_errors_fatal and a task returns an error, Ansible finishes the fatal task on all hosts in the current batch and then stops executing the play on all hosts. Subsequent tasks and plays are not executed. 
+# You can recover from fatal errors by adding a rescue section to the block. 
+# You can set any_errors_fatal at the play or block level.
+
+# run: ansible-playbook -i ./inventory_unreachable any_errors_fatal.yml 
+
+---
+- hosts: all
+  become: true
+  any_errors_fatal: true
+  tasks:
+  - name: get file list
+    shell: ls /home/vmadmin/dir
+
+    register: output
+
+  - name: print hostname
+    debug:
+      msg: "{{ output }}"
+    # any_errors_fatal: true
+
+  - name: final task
+    debug:
+      msg: 'this is final task to run'
+

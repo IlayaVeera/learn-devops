@@ -1,0 +1,11 @@
+---
+- hosts: all
+  become: true
+  tasks:
+  - name: find file in server
+    stat:
+      path: /home/vmadmin/dir/sample_script.sh
+    register: output
+  - fail:
+      msg: 'this is not directory'
+    when: output.stat.isdir != 'false'
